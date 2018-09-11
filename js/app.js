@@ -34,6 +34,21 @@ function shuffle(array) {
 //Create a shuffled desk to later use.
 let shuffledDeck = shuffle(deck);
 
+//Store HTML from Ul "deck" in variable.
+let deckHTML = document.getElementsByClassName('deck').item(0);
+
+//Populate function to remove current HTML in Ul "deck" and replace it with new shuffled HTML.
+function setupNewDeckLayout(array) {
+
+    deckHTML.innerHTML = ' ';
+
+    array.forEach(function(element) {
+        deckHTML.appendChild(element);
+    })
+};
+
+setupNewDeckLayout(shuffledDeck);
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
