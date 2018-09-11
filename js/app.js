@@ -1,6 +1,6 @@
-/*
- * Create a list that holds all of your cards
- */
+
+// Created a list that holds all of the cards.
+ 
 const deck = Array.from(document.getElementsByClassName('card'));
 
 /*
@@ -10,8 +10,11 @@ const deck = Array.from(document.getElementsByClassName('card'));
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+//Shuffle function for the deck.
 function shuffle(array) {
+
+    //Created new array instance to avoid modifying the initial array and possible side effects.
+
     var newArray = array.concat();
     var currentIndex = newArray.length, 
         temporaryValue, 
@@ -20,15 +23,17 @@ function shuffle(array) {
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = newArray[currentIndex];
+        newArray[currentIndex] = newArray[randomIndex];
+        newArray[randomIndex] = temporaryValue;
     }
 
     return newArray;
 }
 
+//Create a shuffled desk to later use.
 let shuffledDeck = shuffle(deck);
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
