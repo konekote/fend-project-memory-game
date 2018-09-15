@@ -59,3 +59,44 @@ setupNewDeckLayout(shuffledDeck);
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+const flipCard = function(element) {
+    element.classList.add('open', 'show');
+};
+
+const turnCard = function(element1, element2) {
+    element1.classList.remove('open', 'show');
+    element2.classList.remove('open', 'show');
+};
+
+const match = function(element1, element2) {
+    element1.classList.add('match');
+    element2.classList.add('match');
+}
+
+let openCards = [];
+
+const delayMatch = 100;
+
+const delayTurnOver = 1000;
+
+let allCards = Array.from(document.getElementsByClassName('card'));
+allCards.forEach(function(element) {
+
+    element.addEventListener('click', function(){
+
+    flipCard(element);
+    openCards.push(element);
+
+        if (openCards.length === 2) {
+            if (openCards[0].children.item(0).classList.toString() === openCards[1].children.item(0).classList.toString()) {
+                match(openCards[0], openCards[1]);
+                openCards = [];
+
+            }
+        } else if (openCards.length === 3) {
+            turnCard(openCards[0], openCards[1]);
+            openCards.splice(0, 2);
+        };
+    });
+});
