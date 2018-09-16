@@ -80,13 +80,19 @@ const delayMatch = 100;
 
 const delayTurnOver = 1000;
 
+const updateMoveCounter = function () {
+    document.getElementsByClassName('moves').item(0).innerHTML = Number(document.getElementsByClassName('moves').item(0).innerHTML) + 1;
+};
+
 let allCards = Array.from(document.getElementsByClassName('card'));
-allCards.forEach(function(element) {
+allCards.forEach(function (element) {
 
-    element.addEventListener('click', function(){
+    element.addEventListener('click', function () {
 
-    flipCard(element);
-    openCards.push(element);
+        updateMoveCounter();
+
+        flipCard(element);
+        openCards.push(element);
 
         if (openCards.length === 2) {
             if (openCards[0].children.item(0).classList.toString() === openCards[1].children.item(0).classList.toString()) {
