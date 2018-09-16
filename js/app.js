@@ -1,29 +1,22 @@
+// Create a list that holds all of the cards.
 
-// Created a list that holds all of the cards.
- 
 const deck = Array.from(document.getElementsByClassName('card'));
 
 const alreadySolvedDeck = Array.from(document.getElementsByClassName('match'));
 
-document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', function(){
+document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', function () {
     location.reload();
 });
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 //Shuffle function for the deck.
 function shuffle(array) {
 
-    //Created new array instance to avoid modifying the initial array and possible side effects.
+    //Create a new array instance to avoid modifying the initial array and possible side effects.
 
     var newArray = array.concat();
-    var currentIndex = newArray.length, 
-        temporaryValue, 
+    var currentIndex = newArray.length,
+        temporaryValue,
         randomIndex;
 
     while (currentIndex !== 0) {
@@ -48,34 +41,26 @@ function setupNewDeckLayout(array) {
 
     deckHTML.innerHTML = ' ';
 
-    array.forEach(function(element) {
+    array.forEach(function (element) {
         deckHTML.appendChild(element);
     })
 };
 
 setupNewDeckLayout(shuffledDeck);
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-const flipCard = function(element) {
+//Create flip function for cards
+const flipCard = function (element) {
     element.classList.add('open', 'show');
 };
 
-const turnCard = function(element1, element2) {
+//Create turn over functionality for cards
+const turnCard = function (element1, element2) {
     element1.classList.remove('open', 'show');
     element2.classList.remove('open', 'show');
 };
 
-const match = function(element1, element2) {
+//Create match functionality for cards
+const match = function (element1, element2) {
     element1.classList.add('match');
     element2.classList.add('match');
     alreadySolvedDeck.push(element1, element2);
@@ -85,14 +70,17 @@ let openCards = [];
 
 const delayWinningMessage = 100;
 
+//Updates the move counter
 const updateMoveCounter = function () {
     document.getElementsByClassName('moves').item(0).innerHTML = Number(document.getElementsByClassName('moves').item(0).innerHTML) + 1;
 };
 
-let winningMessage = function() {
+//A winning message alert function
+let winningMessage = function () {
     window.alert(`Congratulations! You win! Your final score was: ${document.getElementsByClassName('moves').item(0).innerHTML}!`);
 };
 
+//Add watcher for each card to do flip, turn over, match functions on click and to give winning message after all have matched.
 let allCards = Array.from(document.getElementsByClassName('card'));
 allCards.forEach(function (element) {
 
@@ -106,7 +94,7 @@ allCards.forEach(function (element) {
         if (openCards.length === 2) {
             if (openCards[0].children.item(0).classList.toString() === openCards[1].children.item(0).classList.toString()) {
                 match(openCards[0], openCards[1]);
-                if(deck.length === alreadySolvedDeck.length) {
+                if (deck.length === alreadySolvedDeck.length) {
                     setTimeout(winningMessage, delayWinningMessage);
                 };
                 openCards = [];
@@ -117,6 +105,6 @@ allCards.forEach(function (element) {
             openCards.splice(0, 2);
         };
 
-        
+
     });
 });
