@@ -3,6 +3,12 @@
  
 const deck = Array.from(document.getElementsByClassName('card'));
 
+const alreadySolvedDeck = Array.from(document.getElementsByClassName('match'));
+
+document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', function(){
+    location.reload();
+});
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -72,16 +78,19 @@ const turnCard = function(element1, element2) {
 const match = function(element1, element2) {
     element1.classList.add('match');
     element2.classList.add('match');
+    alreadySolvedDeck.push(element1, element2);
 }
 
 let openCards = [];
 
-const delayMatch = 100;
-
-const delayTurnOver = 1000;
+const delayWinningMessage = 100;
 
 const updateMoveCounter = function () {
     document.getElementsByClassName('moves').item(0).innerHTML = Number(document.getElementsByClassName('moves').item(0).innerHTML) + 1;
+};
+
+let winningMessage = function() {
+    window.alert(`Congratulations! You win! Your final score was: ${document.getElementsByClassName('moves').item(0).innerHTML}!`);
 };
 
 let allCards = Array.from(document.getElementsByClassName('card'));
@@ -97,6 +106,9 @@ allCards.forEach(function (element) {
         if (openCards.length === 2) {
             if (openCards[0].children.item(0).classList.toString() === openCards[1].children.item(0).classList.toString()) {
                 match(openCards[0], openCards[1]);
+                if(deck.length === alreadySolvedDeck.length) {
+                    setTimeout(winningMessage, delayWinningMessage);
+                };
                 openCards = [];
 
             }
@@ -104,5 +116,7 @@ allCards.forEach(function (element) {
             turnCard(openCards[0], openCards[1]);
             openCards.splice(0, 2);
         };
+
+        
     });
 });
