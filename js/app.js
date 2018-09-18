@@ -6,7 +6,7 @@ let alreadySolvedDeck = Array.from(document.getElementsByClassName('match'));
 
 document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', () => {
 
-    deck.forEach(element => element.classList.remove('open', 'show', 'match'));
+    deck.forEach(element => element.classList.remove('open', 'show', 'match', 'infinite', 'bounce', 'animated'));
     alreadySolvedDeck = [];
     document.getElementsByClassName('moves').item(0).innerHTML = 0;
 
@@ -65,8 +65,8 @@ const turnCard = function (element1, element2) {
 
 //Create match functionality for cards
 const match = function (element1, element2) {
-    element1.classList.add('match');
-    element2.classList.add('match');
+    element1.classList.add('match', 'bounce', 'animated');
+    element2.classList.add('match', 'bounce', 'animated');
     alreadySolvedDeck.push(element1, element2);
 }
 
@@ -100,6 +100,7 @@ allCards.forEach(element => {
                 match(openCards[0], openCards[1]);
                 if (deck.length === alreadySolvedDeck.length) {
                     setTimeout(winningMessage, delayWinningMessage);
+                    deck.forEach(element => element.classList.add('infinite'));
                 };
                 openCards = [];
 
