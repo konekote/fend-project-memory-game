@@ -2,10 +2,14 @@
 
 const deck = Array.from(document.getElementsByClassName('card'));
 
-const alreadySolvedDeck = Array.from(document.getElementsByClassName('match'));
+let alreadySolvedDeck = Array.from(document.getElementsByClassName('match'));
 
-document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', function () {
-    location.reload();
+document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', () => {
+
+    deck.forEach(element => element.classList.remove('open', 'show', 'match'));
+    alreadySolvedDeck = [];
+    document.getElementsByClassName('moves').item(0).innerHTML = 0;
+
 });
 
 
@@ -82,7 +86,7 @@ let winningMessage = function () {
 
 //Add watcher for each card to do flip, turn over, match functions on click and to give winning message after all have matched.
 let allCards = Array.from(document.getElementsByClassName('card'));
-allCards.forEach(function (element) {
+allCards.forEach(element => {
 
     element.addEventListener('click', function () {
 
