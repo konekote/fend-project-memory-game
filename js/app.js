@@ -72,7 +72,8 @@ const match = function (element1, element2) {
 
 let openCards = [];
 
-const delayWinningMessage = 100;
+const winningMessageTimer = new Timer();
+const delayWinningMessageTime = 1;
 
 //Updates the move counter
 const updateMoveCounter = function () {
@@ -99,7 +100,7 @@ allCards.forEach(element => {
             if (openCards[0].children.item(0).classList.toString() === openCards[1].children.item(0).classList.toString()) {
                 match(openCards[0], openCards[1]);
                 if (deck.length === alreadySolvedDeck.length) {
-                    setTimeout(winningMessage, delayWinningMessage);
+                    winningMessageTimer.start(delayWinningMessageTime).on('end', winningMessage);
                     deck.forEach(element => element.classList.add('infinite'));
                 };
                 openCards = [];
