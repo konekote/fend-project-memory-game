@@ -80,10 +80,23 @@ const updateMoveCounter = function () {
     document.getElementsByClassName('moves').item(0).innerHTML = Number(document.getElementsByClassName('moves').item(0).innerHTML) + 1;
 };
 
+const modal = document.getElementById('modal');
+
+const closeButtonModal = document.getElementById('modal-close');
+
 //A winning message alert function
 let winningMessage = function () {
-    window.alert(`Congratulations! You win! Your final score was: ${document.getElementsByClassName('moves').item(0).innerHTML}!`);
+    modal.querySelector('#modal-text').innerHTML =
+        `Congratulations! You win! You finished this in ${document.getElementsByClassName('moves').item(0).innerHTML} moves`;
+    modal.style.display = 'block';
 };
+
+//Close the model when clicking on X
+let closeWinningMessage = function() {    
+    modal.style.display = 'none';
+};
+
+closeButtonModal.onclick = closeWinningMessage;
 
 //Add watcher for each card to do flip, turn over, match functions on click and to give winning message after all have matched.
 let allCards = Array.from(document.getElementsByClassName('card'));

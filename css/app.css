@@ -33,6 +33,30 @@ h1 {
     font-weight: 300;
 }
 
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 3em;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#modal-content {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 2em;
+    border: 2px solid #02b3e4;
+}
+
+#modal-close {
+    color: #02b3e4;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 /*
  * Styles for the deck of cards
  */
