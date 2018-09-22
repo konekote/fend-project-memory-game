@@ -76,8 +76,11 @@ const winningMessageTimer = new Timer();
 const delayWinningMessageTime = 1;
 
 //Updates the move counter
+
+let moveCounter = document.getElementsByClassName('moves').item(0);
+
 const updateMoveCounter = function () {
-    document.getElementsByClassName('moves').item(0).innerHTML = Number(document.getElementsByClassName('moves').item(0).innerHTML) + 1;
+    moveCounter.innerHTML = Number(moveCounter.innerHTML) + 1;
 };
 
 const modal = document.getElementById('modal');
@@ -92,11 +95,21 @@ let winningMessage = function () {
 };
 
 //Close the model when clicking on X
-let closeWinningMessage = function() {    
+let closeWinningMessage = function () {
     modal.style.display = 'none';
 };
 
 closeButtonModal.onclick = closeWinningMessage;
+
+//Function to remove star from score
+const starList = document.querySelector('.stars');
+
+//Function to remove a star
+const removeStar = () => {
+
+    const starToRemove = starList.children.item(0);
+    starList.removeChild(starToRemove);
+}
 
 //Add watcher for each card to do flip, turn over, match functions on click and to give winning message after all have matched.
 let allCards = Array.from(document.getElementsByClassName('card'));
@@ -105,6 +118,12 @@ allCards.forEach(element => {
     element.addEventListener('click', function () {
 
         updateMoveCounter();
+        if (Number(moveCounter.innerHTML) === 30) {
+            removeStar();
+
+        } else if (Number(moveCounter.innerHTML) === 40) {
+            removeStar();
+        };
 
         flipCard(element);
         openCards.push(element);
