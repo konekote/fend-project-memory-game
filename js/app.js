@@ -6,10 +6,23 @@ let alreadySolvedDeck = Array.from(document.getElementsByClassName('match'));
 
 document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', () => {
 
+    //Remove animation classes from cards and turn them over
     deck.forEach(element => element.classList.remove('open', 'show', 'match', 'infinite', 'bounce', 'animated'));
+
+    //Empty the already solved cards from deck array
     alreadySolvedDeck = [];
+
+    //Reset move counter
     document.getElementsByClassName('moves').item(0).innerHTML = 0;
 
+    //Reshuffle deck and display
+    setupNewDeckLayout(shuffle(deck));
+
+    //Reset the stars
+    while(document.querySelector('.stars').children.length < 3) {
+        const newStar = starList.children.item(0).cloneNode(true);
+        starList.appendChild(newStar);
+    }
 });
 
 
@@ -76,7 +89,6 @@ const winningMessageTimer = new Timer();
 const delayWinningMessageTime = 1;
 
 //Updates the move counter
-
 let moveCounter = document.getElementsByClassName('moves').item(0);
 
 const updateMoveCounter = function () {
@@ -90,7 +102,8 @@ const closeButtonModal = document.getElementById('modal-close');
 //A winning message alert function
 let winningMessage = function () {
     modal.querySelector('#modal-text').innerHTML =
-        `Congratulations! You win! You finished this in ${document.getElementsByClassName('moves').item(0).innerHTML} moves`;
+        `Congratulations! You win! You finished this in ${document.getElementsByClassName('moves').item(0).innerHTML} moves.
+         Your score is ${document.querySelector('.stars').children.length} stars.`;
     modal.style.display = 'block';
 };
 
