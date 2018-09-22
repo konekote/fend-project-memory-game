@@ -23,6 +23,9 @@ document.getElementsByClassName('fa-repeat').item(0).addEventListener('click', (
         const newStar = starList.children.item(0).cloneNode(true);
         starList.appendChild(newStar);
     }
+
+    //Reset timer
+    timerElement.innerHTML = 0;
 });
 
 
@@ -60,7 +63,7 @@ function setupNewDeckLayout(array) {
 
     array.forEach(function (element) {
         deckHTML.appendChild(element);
-    })
+    });
 };
 
 setupNewDeckLayout(shuffledDeck);
@@ -100,10 +103,11 @@ const modal = document.getElementById('modal');
 const closeButtonModal = document.getElementById('modal-close');
 
 //A winning message alert function
-let winningMessage = function () {
+let winningMessage = function (durationInMs) {
     modal.querySelector('#modal-text').innerHTML =
         `Congratulations! You win! You finished this in ${document.getElementsByClassName('moves').item(0).innerHTML} moves.
-         Your score is ${document.querySelector('.stars').children.length} stars.`;
+         Your number of stars is ${document.querySelector('.stars').children.length}.
+         You finished in ${Math.floor(durationInMs/1000)} seconds.`;
     modal.style.display = 'block';
 };
 
@@ -118,10 +122,20 @@ closeButtonModal.onclick = closeWinningMessage;
 const starList = document.querySelector('.stars');
 
 //Function to remove a star
-const removeStar = () => {
+const removeStar = function() {
 
     const starToRemove = starList.children.item(0);
     starList.removeChild(starToRemove);
+}
+
+//Timer
+const timerElement = document.getElementById('timer');
+let startTime;
+let updateTimeIntervalId;
+
+const updateTime = function() {
+    const currentTime = Date.now();
+    timerElement.innerHTML = Math.floor((currentTime - startTime)/1000);
 }
 
 //Add watcher for each card to do flip, turn over, match functions on click and to give winning message after all have matched.
@@ -129,12 +143,16 @@ let allCards = Array.from(document.getElementsByClassName('card'));
 allCards.forEach(element => {
 
     element.addEventListener('click', function () {
-
+        const numberOfMoves = Number(moveCounter.innerHTML);
+        if (numberOfMoves === 0) {
+            startTime = Date.now();
+            updateTimeIntervalId = setInterval(updateTime, 1000);
+        }
         updateMoveCounter();
-        if (Number(moveCounter.innerHTML) === 30) {
+        if (numberOfMoves === 30) {
             removeStar();
 
-        } else if (Number(moveCounter.innerHTML) === 40) {
+        } else if (numberOfMoves === 40) {
             removeStar();
         };
 
@@ -145,7 +163,9 @@ allCards.forEach(element => {
             if (openCards[0].children.item(0).classList.toString() === openCards[1].children.item(0).classList.toString()) {
                 match(openCards[0], openCards[1]);
                 if (deck.length === alreadySolvedDeck.length) {
-                    winningMessageTimer.start(delayWinningMessageTime).on('end', winningMessage);
+                    const durationInMs = Date.now() - startTime;
+                    clearInterval(updateTimeIntervalId);
+                    winningMessageTimer.start(delayWinningMessageTime).on('end', () => winningMessage(durationInMs));
                     deck.forEach(element => element.classList.add('infinite'));
                 };
                 openCards = [];
